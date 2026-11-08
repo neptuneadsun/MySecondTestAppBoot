@@ -10,17 +10,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 import ru.laba2.MySecondTestAppBoot.exception.ValidationFailedException;
-import ru.laba2.MySecondTestAppBoot.model.Request;
-import ru.laba2.MySecondTestAppBoot.model.Response;
-import ru.laba2.MySecondTestAppBoot.model.Codes;
-import ru.laba2.MySecondTestAppBoot.model.ErrorCodes;
-import ru.laba2.MySecondTestAppBoot.model.ErrorMessages;
+import ru.laba2.MySecondTestAppBoot.model.*;
+import ru.laba2.MySecondTestAppBoot.service.ModifyRequestService;
 import ru.laba2.MySecondTestAppBoot.service.ModifyResponseService;
 import ru.laba2.MySecondTestAppBoot.service.ValidationService;
 import ru.laba2.MySecondTestAppBoot.util.DateTimeUtil;
-
+import lombok.extern.slf4j.Slf4j;
+import jakarta.validation.Valid;
 import java.util.Date;
 
 @Slf4j
@@ -29,12 +26,14 @@ public class MyController {
 
     private final ValidationService validationService;
     private final ModifyResponseService modifyResponseService;
-
+    private final ModifyRequestService modifySourceRequestService; 
     @Autowired
     public MyController(ValidationService validationService,
-                        @Qualifier("ModifySystemTimeResponseService") ModifyResponseService modifyResponseService) {
+                        @Qualifier("ModifySystemTimeResponseService") ModifyResponseService modifyResponseService,
+                        @Qualifier("ModifySourceRequestService") ModifyRequestService modifySourceRequestService) { 
         this.validationService = validationService;
         this.modifyResponseService = modifyResponseService;
+        this.modifySourceRequestService = modifySourceRequestService;
     }
 
     @PostMapping(value = "/feedback")
@@ -53,39 +52,23 @@ public class MyController {
                 .build();
 
         try {
-            log.info("Начало валидации запроса");
             validationService.isValid(bindingResult);
-            log.info("Валидация пройдена успешно");
-
         } catch (ValidationFailedException e) {
-            log.error("Выброшено исключение ValidationFailedException: {}", e.getMessage());
-
-            if (bindingResult.hasErrors()) {
-                bindingResult.getFieldErrors().forEach(error -> 
-                    log.error("Ошибка в поле '{}': отклоненное значение '{}', сообщение: '{}'", 
-                            error.getField(), 
-                            error.getRejectedValue(), 
-                            error.getDefaultMessage())
-                );
-            }
-
             response.setCode(Codes.FAILED);
             response.setErrorCode(ErrorCodes.VALIDATION_EXCEPTION);
             response.setErrorMessage(ErrorMessages.VALIDATION);
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-
         } catch (Exception e) {
-            log.error("Выброшено непредвиденное исключение: {}", e.getMessage());
             response.setCode(Codes.FAILED);
             response.setErrorCode(ErrorCodes.UNKNOWN_EXCEPTION);
             response.setErrorMessage(ErrorMessages.UNKNOWN);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        log.info("Ответ до модификации: {}", response);
-        Response modifiedResponse = modifyResponseService.modify(response);
-        log.info("Ответ после модификации: {}", modifiedResponse);
+        request.setSendTime(System.currentTimeMillis());
 
-        return new ResponseEntity<>(modifiedResponse, HttpStatus.OK);
+        modifySourceRequestService.modify(request); 
+        modifyResponseService.modify(response);
+        return new ResponseEntity<>(modifyResponseService.modify(response), HttpStatus.OK);
     }
 }
