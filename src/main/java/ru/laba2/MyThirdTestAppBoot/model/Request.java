@@ -1,4 +1,4 @@
-package ru.laba2.MySecondTestAppBoot.model;
+package ru.laba2.MyThirdTestAppBoot.model;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -62,5 +62,6 @@ public class Request {
                 '}';
     }
 
+    private Long sendTime;
 }
 

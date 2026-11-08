@@ -1,4 +1,4 @@
-package ru.laba2.MySecondTestAppBoot.controller;
+package ru.laba2.MyThirdTestAppBoot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import ru.laba2.MySecondTestAppBoot.exception.ValidationFailedException;
-import ru.laba2.MySecondTestAppBoot.model.Request;
-import ru.laba2.MySecondTestAppBoot.model.Response;
-import ru.laba2.MySecondTestAppBoot.model.Codes;
-import ru.laba2.MySecondTestAppBoot.model.ErrorCodes;
-import ru.laba2.MySecondTestAppBoot.model.ErrorMessages;
-import ru.laba2.MySecondTestAppBoot.service.ModifyResponseService;
-import ru.laba2.MySecondTestAppBoot.service.ValidationService;
-import ru.laba2.MySecondTestAppBoot.util.DateTimeUtil;
+import ru.laba2.MyThirdTestAppBoot.exception.ValidationFailedException;
+import ru.laba2.MyThirdTestAppBoot.model.Request;
+import ru.laba2.MyThirdTestAppBoot.model.Response;
+import ru.laba2.MyThirdTestAppBoot.model.Codes;
+import ru.laba2.MyThirdTestAppBoot.model.ErrorCodes;
+import ru.laba2.MyThirdTestAppBoot.model.ErrorMessages;
+import ru.laba2.MyThirdTestAppBoot.service.ModifyResponseService;
+import ru.laba2.MyThirdTestAppBoot.service.ValidationService;
+import ru.laba2.MyThirdTestAppBoot.util.DateTimeUtil;
 
 import java.util.Date;
 
@@ -42,6 +42,10 @@ public class MyController {
                                              BindingResult bindingResult) {
 
         log.info("request: {}", request);
+
+        long currentTime = System.currentTimeMillis();
+        long timeDifference = currentTime - request.getSendTime();
+        log.info("Время от нажатия Send в Postman до получения запроса Сервисом 2: {} мс", timeDifference);
 
         Response response = Response.builder()
                 .uid(request.getUid())
