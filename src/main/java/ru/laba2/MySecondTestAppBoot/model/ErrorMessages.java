@@ -1,4 +1,4 @@
-package ru.laba2.MyThirdTestAppBoot.model;
+package ru.laba2.MySecondTestAppBoot.model;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

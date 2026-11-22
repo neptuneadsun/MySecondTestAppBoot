@@ -1,4 +1,4 @@
-package ru.laba2.MyThirdTestAppBoot.exception;
+package ru.laba2.MySecondTestAppBoot.exception;
 
 public class ValidationFailedException extends Exception {
 

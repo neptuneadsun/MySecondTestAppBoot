@@ -1,7 +1,7 @@
-package ru.laba2.MyThirdTestAppBoot.service;
+package ru.laba2.MySecondTestAppBoot.service;
 
 import org.springframework.stereotype.Service;
-import ru.laba2.MyThirdTestAppBoot.model.Response;
+import ru.laba2.MySecondTestAppBoot.model.Response;
 
 @Service
 public interface ModifyResponseService {
