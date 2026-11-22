@@ -16,52 +16,82 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Request {
 
-    @NotBlank
-    @NotNull
+    /**
+     * Уникальный идентификатор сообщения
+     */
+    @NotBlank(message = "UID не может быть пустым")
     @Size(max = 32)
     private String uid;
 
-    @NotNull
+    /**
+     * Уникальный идентификатор операции
+     */
+    @NotBlank(message = "Operation UID не может быть пустым")
     @Size(max = 32)
     private String operationUid;
 
-
+    /**
+     * Имя системы отправителя
+     */
     private Systems systemName;
 
-    @NotNull
+    /**
+     * Время создания сообщения
+     */
+    @NotBlank(message = "System Time не может быть пустым")
     private String systemTime;
 
-
+    /**
+     * Наименование ресурса
+     */
     private String source;
 
+    /**
+     * Уникальный идентификатор коммуникации
+     */
     @Min(1)
     @Max(100000)
-    private int communicationId;
+    private Integer communicationId;
 
+    /**
+     * Уникальный идентификатор шаблона
+     */
+    private Integer templateId;
 
-    private int templateId;
+    /**
+     * Код продукта
+     */
+    private Integer productCode;
 
-
-    private int productCode;
-
-
-    private int smsCode;
+    /**
+     * Смс код
+     */
+    private Integer smsCode;
+    
+    
+    private Positions position;
+    private Double salary;
+    private Double bonus;
+    private Integer workDays;
 
     @Override
     public String toString() {
         return "{" +
                 "uid='" + uid + '\'' +
                 ", operationUid='" + operationUid + '\'' +
-                ", systemName='" + systemName + '\'' +
+                ", systemName=" + systemName +
                 ", systemTime='" + systemTime + '\'' +
                 ", source='" + source + '\'' +
                 ", communicationId=" + communicationId +
                 ", templateId=" + templateId +
                 ", productCode=" + productCode +
                 ", smsCode=" + smsCode +
+                ", position=" + position +
+                ", salary=" + salary +
+                ", bonus=" + bonus +
+                ", workDays=" + workDays +
                 '}';
     }
 
     private Long sendTime;
 }
-
