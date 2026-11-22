@@ -1,15 +1,17 @@
-package ru.laba2.MySecondTestAppBoot.model;
+package ru.laba2.MyThirdTestAppBoot.model;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum Codes {
+public enum ErrorCodes {
 
-    SUCCESS("success"),
-    FAILED("failed");
+    EMPTY(""),
+    VALIDATION_EXCEPTION("ValidationException"),
+    UNKNOWN_EXCEPTION("UnknownException"),
+    UNSUPPORTED_EXCEPTION("UnsupportedException");
 
     private final String name;
 
-    Codes(String name) {
+    ErrorCodes(String name) {
         this.name = name;
     }
 

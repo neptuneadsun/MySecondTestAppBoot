@@ -1,8 +1,8 @@
-package ru.laba2.MySecondTestAppBoot.service;
+package ru.laba2.MyThirdTestAppBoot.service;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.laba2.MySecondTestAppBoot.model.Response;
+import ru.laba2.MyThirdTestAppBoot.model.Response;
 
 import java.util.UUID;
 
